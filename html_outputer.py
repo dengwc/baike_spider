@@ -7,6 +7,7 @@ class HtmlOutputer(object):
 
     def __init__(self):
         self.datas = []
+        self.data_dir = './data/'
 
     def collect_data(self, data):
         if data is None:
@@ -14,22 +15,11 @@ class HtmlOutputer(object):
         self.datas.append(data)
 
     def output_html(self):
-        fout = open('output.html', 'w')
         type = sys.getfilesystemencoding()
 
-        fout.write('<html>')
-        fout.write('<body>')
-        fout.write('<tabel>')
-
         for data in self.datas:
-            fout.write('<tr>')
-            fout.write('<td>%s</td>' % data['url'])
-            fout.write('<td>%s</td>' % data['title'].encode(type))
-            fout.write('<td>%s</td>' % data['summary'].encode(type))
-            fout.write('</tr>')
-
-        fout.write('</tabel>')
-        fout.write('</body>')
-        fout.write('</html>')
+            output_file = self.data_dir + data['title']
+            fout = open(output_file, 'w+')
+            fout.write(data['summary'].encode(type))
 
         fout.close()
